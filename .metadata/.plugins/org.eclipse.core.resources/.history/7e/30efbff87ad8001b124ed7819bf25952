@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<title>Restaurante App</title>
+</h:head>
+<h:body>
+	<ui:include src="/navbar.xhtml"></ui:include>
+
+	<b:container id="containerPpal">
+		<b:row>
+			<h:form id="frmAdminRestaurantes">
+				<b:growl id="msgObligatorios" placementFrom="top" showSummary="true" showDetail="true" icon="warning-sign"></b:growl>
+				
+				<b:panel title="Administracion de Restaurantes" look="primary" collapsible="false">
+					
+					<b:commandButton id="btnAgregar" look="primary" value="Agregar" size="xs" style="margin-bottom:20px" ajax="true" oncomplete="$('#amodal').modal('show')" 
+							update="frmRegistroRestaurante"	onclick="ajax:adminRestaurantesController.inicializarComponentes()"></b:commandButton>
+							
+					<b:dataTable id="tblRestaurantes" value="#{adminRestaurantesController.listRestaurantes}" var="restaurante" style="width:100%" csv="true" pdf="true" responsive="true">
+						<b:dataTableColumn label="id" value="#{restaurante.idRestaurante}" />
+						<b:dataTableColumn label="Nombre" value="#{restaurante.nombre}" order="asc"/>
+						<b:dataTableColumn label="Tipo Restaurante" value="#{restaurante.tipoRestaurante.descripcion}"  />
+						<b:dataTableColumn label="Imagen" value="#{restaurante.imagen}"  />
+						<b:dataTableColumn label="Slogan" value="#{restaurante.slogan}"  />
+						<b:dataTableColumn label="Fecha Creacion" value="#{restaurante.fechaCreacion}" />
+						<b:dataTableColumn label="Fecha Modificacion" value="#{restaurante.fechaModificacion}" />
+						<b:dataTableColumn label="Estatus">
+							<b:label value="Habilitado" rendered="#{restaurante.status}" severity="success"></b:label>
+							<b:label value="Deshabilitado" rendered="#{!restaurante.status}" severity="danger"></b:label>
+						</b:dataTableColumn>
+						<b:dataTableColumn label="Actualizar">
+							<b:commandButton icon="pencil" size="xs" look="success" ajax="true" update="frmRegistroRestaurante" oncomplete="$('#amodal').modal('show')"
+										onclick="ajax:adminRestaurantesController.cargarInfoModal(restaurante)"></b:commandButton>
+						</b:dataTableColumn>
+						<b:dataTableColumn label="Eliminar" >
+						<b:commandButton icon="trash" size="xs" look="danger"  ajax="true" update="" oncomplete="$('#dlgEliminar').modal('show')"
+										onclick="ajax:adminRestaurantesController.cargarInfoModal(restaurante)"></b:commandButton>
+						</b:dataTableColumn>
+					</b:dataTable>
+					
+				</b:panel>
+				
+			</h:form>
+			<b:modal id="amodal" title="Registro de Restaurante" styleClass="modalPseudoClass">
+				<b:form id="frmRegistroRestaurante" enctype="multipart/form-data">
+				<b:inputText id="txtNombre" label="Nombre: " value="#{adminRestaurantesController.restaurante.nombre}" required="true" requiredMessage="El nombre es requerido" colMd="12"></b:inputText>
+				<h:outputText value="Imagen:* " style="font-weight:bold" class="col-md-12" ></h:outputText>
+				<h:inputFile id="fileImagen" value="#{adminRestaurantesController.archivoSeleccionado}" class="col-md-12"></h:inputFile>
+				<b:inputText id="txtSlogan" label="Slogan: " value="#{adminRestaurantesController.restaurante.slogan}" colMd="12" ></b:inputText>
+				
+				<b:selectOneMenu id="cboTipoRestaurante" label="Tipo Restaurante: " value="#{adminRestaurantesController.restaurante.tipoRestaurante.idTipoRestaurante}" colMd="6" span="12" required="true" requiredMessage="El tipo de restaurante es requerido: " >
+				<f:selectItem itemValue="" itemLabel="-- Seleccione --" ></f:selectItem>
+				<f:selectItems value="#{adminTipoRestaurantesController.listTipoRestaurantes}" var="tipoRestaurante" itemValue="#{tipoRestaurante.idTipoRestaurante}" itemLabel="#{tipoRestaurante.descripcion}"></f:selectItems>
+				</b:selectOneMenu>
+				
+				<b:switch id="swEstatus" value="#{adminRestaurantesController.restaurante.status}" offText="Habilitar" onText="Deshabilitar" label="Estatus" offColor="success" onColor="danger"
+								colMd="6" span="12" rendered="#{adminRestaurantesController.restaurante.idRestaurante != null}"></b:switch>
+				
+					<b:row  styleClass="margin-bottom: 10px; margin-top: 10px">
+						<b:column colMd="6">
+							<b:button id="btnCancelar" value="Cancelar" look="danger" dismiss="modal" largeScreen="full-width" onclick="return false;"></b:button>
+						</b:column>
+						<b:column colMd="6">
+							<b:commandButton id="btnGuardar" value="Guardar" look="primary" largeScreen="full-width" update="frmRegistroRestaurante, frmAdminRestaurantes:tblRestaurantes, frmAdminRestaurantes:msgObligatorios"
+											 rendered="#{adminRestaurantesController.restaurante.idRestaurante == null}" oncomplete="$('#amodal').modal('hide')" onclick="ajax:adminRestaurantesController.guardar()" ></b:commandButton>
+							<b:commandButton id="btnActualizar" value="Actualizar" look="primary" largeScreen="full-width" update="frmRegistroRestaurante, frmAdminRestaurantes:tblRestaurantes, frmAdminRestaurantes:msgObligatorios" 
+											 rendered="#{adminRestaurantesController.restaurante.idRestaurante != null}" oncomplete="$('#amodal').modal('hide')" onclick="ajax:adminRestaurantesController.actualizar()" ></b:commandButton>
+						</b:column>
+					</b:row>
+					
+				</b:form>
+			</b:modal>
+			<b:modal id="dlgEliminar" title="Eliminar Restaurante" styleClass="modalPseudoClass">
+				<b:form id="frmEliminarRestaurante">
+				
+				<h:outputText id="LblElilminar" value="Estas seguro de eliminar el restaurante #{adminRestaurantesController.restaurante.nombre}?"></h:outputText>
+				
+					<b:row  styleClass="margin-bottom: 10px; margin-top: 10px">
+						<b:column colMd="6">
+							<b:button id="btnCancelar" value="No" look="danger" dismiss="modal" largeScreen="full-width" onclick="return false;"></b:button>
+						</b:column>
+						<b:column colMd="6">
+							<b:commandButton id="btnEliminar" value="Si" look="primary" largeScreen="full-width" update="frmAdminRestaurantes:tblRestaurantes, frmAdminRestaurantes:msgObligatorios" 
+											oncomplete="$('#dlgEliminar').modal('hide')" onclick="ajax:adminRestaurantesController.eliminar()">
+							</b:commandButton>
+						</b:column>
+					</b:row>
+					
+				</b:form>
+			</b:modal>
+		</b:row>
+	</b:container>
+	
+</h:body>
+</html>

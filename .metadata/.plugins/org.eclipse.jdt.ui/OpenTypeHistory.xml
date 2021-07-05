@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+    <typeInfo handle="=restaurantes-data/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.emula.restaurantesdata.dao{EmpleadoDAO.java[EmpleadoDAO" modifiers="513" timestamp="1623374241751"/>
+    <typeInfo handle="=restaurante-web/C:\/Users\/hugol\/.m2\/repository\/com\/sun\/faces\/jsf-api\/2.2.20\/jsf-api-2.2.20.jar=/maven.pomderived=/true=/=/org.eclipse.jst.component.dependency=/\/WEB-INF\/lib=/=/maven.pomderived=/true=/=/org.eclipse.jst.component.archivename=/jsf-api-2.2.20.jar=/=/maven.groupId=/com.sun.faces=/=/maven.artifactId=/jsf-api=/=/maven.version=/2.2.20=/=/maven.scope=/compile=/&lt;javax.faces.convert(Converter.class[Converter" modifiers="1537" timestamp="1622684177471"/>
+    <typeInfo handle="=restaurante-web/C:\/Users\/hugol\/.m2\/repository\/com\/google\/protobuf\/protobuf-java\/3.6.1\/protobuf-java-3.6.1.jar=/maven.pomderived=/true=/=/org.eclipse.jst.component.dependency=/\/WEB-INF\/lib=/=/maven.pomderived=/true=/=/org.eclipse.jst.component.archivename=/protobuf-java-3.6.1.jar=/=/maven.groupId=/com.google.protobuf=/=/maven.artifactId=/protobuf-java=/=/maven.version=/3.6.1=/=/maven.scope=/compile=/&lt;com.google.protobuf(Internal$MapAdapter$Converter.class[Converter" modifiers="1545" timestamp="1623461563125"/>
+</typeInfoHistroy>

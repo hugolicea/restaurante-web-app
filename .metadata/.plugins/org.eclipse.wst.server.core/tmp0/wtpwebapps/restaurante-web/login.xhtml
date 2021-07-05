@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui">
+<h:head>
+	<title>Restaurante App</title>
+</h:head>
+<h:body>
+	<h:form id="frmLogin">
+		<b:growl id="msgObligatorios" placementFrom="top" showSummary="true"
+			showDetail="true" icon="warning-sign"></b:growl>
+		<b:container id="containerLogin" layout="fluid">
+			<b:panel id="pnlLogin" title="Inicio de sesion" look="primary"
+				collapsible="false" col-sm="9">
+				<b:image value="/resources/images/login/RestaurantLogo.png"
+					small-screen="one-third" />
+				<b:panel>
+					<b:inputText id="txtUsuario" label="Usuario:"
+						placeholder="Ingresa tu usuario" required="true"
+						requiredMessage="El usuario es obligarorio"
+						value="#{loginController.userName}">
+						<f:facet name="prepend">
+							<b:icon name="user" />
+						</f:facet>
+					</b:inputText>
+					<b:focus target="txtUsuario" />
+					<b:inputSecret id="txtPassword" label="Contrasena:"
+						placeholder="Ingresa tu Contraseña" required="true"
+						requiredMessage="La contraseña es obligatoria"
+						value="#{loginController.password}">
+						<f:facet name="prepend">
+							<b:icon name="lock"></b:icon>
+						</f:facet>
+					</b:inputSecret>
+					<b:selectBooleanCheckbox caption="Administrador General"
+						value="#{loginController.esSuperAdminGeneral}"></b:selectBooleanCheckbox>
+					  <b:commandButton value="Login" icon="log-in" look="success"
+						onclick="ajax:loginController.entrar" style="float:right"
+						update="pnlLogin,msgObligatorios" />
+				</b:panel>
+				<f:facet name="footer">
+					<h:outputText value="http://emula.com" />
+				</f:facet>
+			</b:panel>
+		</b:container>
+	</h:form>
+</h:body>
+</html>

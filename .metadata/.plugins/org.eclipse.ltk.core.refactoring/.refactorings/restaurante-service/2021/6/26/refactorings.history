@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;com.emula.restauranteservice.services.AdminGeneralService.guardar(...)&apos; to &apos;guardarRestaurante&apos;&#x0D;&#x0A;- Original project: &apos;restaurante-service&apos;&#x0D;&#x0A;- Original element: &apos;com.emula.restauranteservice.services.AdminGeneralService.guardar(...)&apos;&#x0D;&#x0A;- Renamed element: &apos;com.emula.restauranteservice.services.AdminGeneralService.guardarRestaurante(...)&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;guardar&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.emula.restauranteservice.services{AdminGeneralService.java[AdminGeneralService~guardar~QRestaurante;" name="guardarRestaurante" references="true" stamp="1624414350895" version="1.0"/>
+</session>

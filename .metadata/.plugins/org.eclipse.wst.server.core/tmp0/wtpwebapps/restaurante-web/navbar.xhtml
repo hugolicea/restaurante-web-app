@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:b="http://bootsfaces.net/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+	<b:container>
+		<h:form id="formNavbar">
+			<b:navBar brand="Brand" brandHref="#" id="nbPpal" inverse="true">
+			  	<b:navbarLinks>
+				    <b:navLink value="Home" href="#" icon="home"></b:navLink>
+				    <b:navLink value="Restaurantes" href="adminrestaurantes.jsf" icon="folder-open"></b:navLink>
+				    <b:navLink value="Tipo Restaurantes" href="admintiporestaurantes.jsf" icon="cog"></b:navLink>
+				    <b:dropMenu value="Configuracion" icon="menu-hamburger">
+				      <b:navLink value="Perfiles" href="#" icon="user"></b:navLink>
+				      <b:navLink value="Another action" href="#"></b:navLink>
+				      <b:navLink value="Something else here" href="#"></b:navLink>
+				      <b:navLink></b:navLink>
+				      <b:navLink header="Nav header"></b:navLink>
+				      <b:navLink value="Separated link" href="#"></b:navLink>
+				      <b:navLink value="One more separated link" href="#"></b:navLink>
+				    </b:dropMenu>
+					<b:dropMenu value="#{sessionBean.empleado.nombre}" icon="user">
+				    	<b:navLink value="Cerrar Sesion" onclick="ajax:sessionClosedBean.cerrarSesion()" ajax="true" icon="log-out"></b:navLink> 
+				    </b:dropMenu>
+				</b:navbarLinks>
+			</b:navBar>
+		</h:form>
+	</b:container>
+
+</ui:composition>

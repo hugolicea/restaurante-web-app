@@ -1,0 +1,12 @@
+/**
+ * 
+ */
+package com.emula.restauranteweb.session;
+
+/**
+ * @author hugol
+ *
+ */
+public class SessionBean {
+
+}

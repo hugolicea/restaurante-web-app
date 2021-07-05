@@ -1,0 +1,4 @@
+com\emula\restauranteentities\entity\CommonEntity.class
+com\emula\restauranteentities\entity\Restaurante.class
+com\emula\restauranteentities\entity\TipoRestaurante.class
+com\emula\restauranteentities\entity\Menu.class

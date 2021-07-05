@@ -1,0 +1,232 @@
+/**
+ * 
+ */
+package com.emula.restauranteweb.controllers;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Serializable;
+import java.nio.file.Files;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.servlet.http.Part;
+
+import com.emula.restauranteentities.entity.Restaurante;
+import com.emula.restauranteentities.entity.TipoRestaurante;
+import com.emula.restauranteservice.services.AdminGeneralService;
+import com.emula.restauranteweb.utils.ControllersUtil;
+
+/**
+ * @author HL Clase que permite controlar el flujo de la pantalla de
+ *         Aministracion de restaurantes.
+ */
+@ManagedBean
+@ViewScoped
+public class AdminRestaurantesController implements Serializable {
+
+	private static final long serialVersionUID = -6159269314118881432L;
+
+	/**
+	 * Lista de restaurantes para mostrar la informacion en el datatable
+	 */
+	private List<Restaurante> listRestaurantes;
+	/**
+	 * Objeto para guardar, actualizar y eliminar tipo restaurantes
+	 */
+	private Restaurante restaurante;
+	/**
+	 * Archivo seleccionado con la imagen del restaurante.
+	 */
+	private Part archivoSeleccionado;
+	/**
+	 * Direccion destino para guardar la imagen
+	 */
+	private static final String PATH_DESTINO_ARCHIVO = "C:\\Users\\hugol\\eclipse-workspace\\JavaBootcamp\\restaurante-web\\src\\main\\webapp\\resources\\images\\restaurantes";
+
+	/**
+	 * Objeto que permite utilizar los servicios de logica de negocio de tipos de
+	 * restaurantes.
+	 */
+	private AdminGeneralService adminGeneralService = new AdminGeneralService();
+
+	@PostConstruct
+	public void init() {
+		this.inicializarComponentes();
+		this.consultar();
+	}
+
+	/**
+	 * Permite inicializar la informacion de los componentes
+	 */
+	public void inicializarComponentes() {
+		this.restaurante = new Restaurante();
+		this.restaurante.setTipoRestaurante(new TipoRestaurante());
+
+	}
+
+	/**
+	 * Permite consultar la tabla de tipo restaurantes
+	 */
+	public void consultar() {
+		try {
+			this.listRestaurantes = adminGeneralService.consultarRestaurantes();
+		} catch (SQLException e) {
+			ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
+					"Hubo un problema al cargar la informacion. Consultar al area de soporte");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Permite guardar un restaurante.
+	 */
+	public void guardar() {
+		try {
+			this.guardarImagenDirectorio();
+			if (null != this.restaurante.getImagen()) {
+				int guardado = this.adminGeneralService.guardarRestaurante(restaurante);
+				if (guardado > 0) {
+					ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_INFO, "INFO: ",
+							"Se guardo el registro correctamente, restaurante " + this.restaurante.getNombre());
+					this.consultar();
+					this.inicializarComponentes();
+				} else {
+					ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
+							"Ocurrio un error al intentar guardar el registro.");
+				}
+			}
+		} catch (SQLException e) {
+			ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
+					"Ocurrio un error en BD al intentar guardar el registro.");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Metodo que permite guardar una imagen en un directorio utiliza la constante
+	 * PATH_DESTINO_ARCHIVO
+	 */
+	public void guardarImagenDirectorio() {
+		if (null != this.archivoSeleccionado) {
+			try {
+				InputStream inputStream = this.archivoSeleccionado.getInputStream();
+				String nombreArchivo = this.archivoSeleccionado.getSubmittedFileName();
+				Files.copy(inputStream, new File(PATH_DESTINO_ARCHIVO, nombreArchivo).toPath());
+				this.restaurante.setImagen(nombreArchivo);
+
+			} catch (IOException e) {
+				ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
+						"Hubo un problema al guardar la imagen, intente nuevamente o consulte al area de soporte");
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	/**
+	 * Metodo que permite actualizar un Restaurante.
+	 */
+	public void actualizar() {
+		System.out.println("Ejecutando acciones para actualizar Restaurante...");
+		try {
+			int actualizado = this.adminGeneralService.actualizarRestaurante(restaurante);
+			if (actualizado > 0) {
+				ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_INFO, "INFO: ",
+						"Se actualizo el registro correctamente, restaurante " + this.restaurante.getNombre());
+				this.consultar();
+				this.inicializarComponentes();
+			} else {
+				ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
+						"Ocurrio un error al intentar actualizar el registro.");
+
+			}
+		} catch (SQLException e) {
+			ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
+					"Hubo un problema al cargar la informacion. Consultar al area de soporte");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Metodo que permite eliminar un restaurante.
+	 */
+	public void eliminar() {
+		System.out.println("Ejecutando acciones para eliminar registro...");
+		try {
+			int eliminado = this.adminGeneralService.eliminarRestaurante(this.restaurante.getIdRestaurante());
+			if (eliminado > 0) {
+				ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_INFO, "INFO: ",
+						"Se elimino el registro correctamente,tipo restaurante " + this.restaurante.getNombre());
+				this.consultar();
+				this.inicializarComponentes();
+			} else {
+				ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
+						"Ocurrio un error al intentar eliminar el registro.");
+
+			}
+		} catch (SQLException e) {
+			ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
+					"Hubo un problema al cargar la informacion. Consultar al area de soporte");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Metodo que permite precargar la informacion del restaurante seleccionado en
+	 * el datatable
+	 * 
+	 * @param tipoRestaurante Objeto a editar
+	 */
+	public void cargarInfoModal(Restaurante restaurante) {
+		this.restaurante = restaurante;
+	}
+
+	/**
+	 * @return the archivoSeleccionado
+	 */
+	public Part getArchivoSeleccionado() {
+		return archivoSeleccionado;
+	}
+
+	/**
+	 * @param archivoSeleccionado the archivoSeleccionado to set
+	 */
+	public void setArchivoSeleccionado(Part archivoSeleccionado) {
+		this.archivoSeleccionado = archivoSeleccionado;
+	}
+
+	/**
+	 * @return the listRestaurantes
+	 */
+	public List<Restaurante> getListRestaurantes() {
+		return listRestaurantes;
+	}
+
+	/**
+	 * @return the restaurante
+	 */
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+
+	/**
+	 * @param restaurante the restaurante to set
+	 */
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
+	}
+
+	/**
+	 * @param listRestaurantes the listRestaurantes to set
+	 */
+	public void setListRestaurantes(List<Restaurante> listRestaurantes) {
+		this.listRestaurantes = listRestaurantes;
+	}
+
+}

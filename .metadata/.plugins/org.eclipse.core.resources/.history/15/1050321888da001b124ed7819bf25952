@@ -1,0 +1,20 @@
+/**
+ * 
+ */
+package com.emula.restauranteweb.session;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+
+/**
+ * @author HL 7/01/2021 Clase que permite cerrar la sesion del usuario.
+ */
+@ManagedBean
+@ViewScoped
+public class SessionClosedBean {
+
+	public void cerrarSesion() {
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+	}
+}
