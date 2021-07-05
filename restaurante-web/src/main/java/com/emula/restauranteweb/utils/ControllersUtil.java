@@ -1,6 +1,7 @@
 package com.emula.restauranteweb.utils;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -12,7 +13,9 @@ import javax.faces.context.FacesContext;
  * @author HL Clase que permite utilizar metodos generales para el
  *         funcionamiento de los controladores
  */
-public class ControllersUtil {
+public class ControllersUtil implements Serializable {
+
+	private static final long serialVersionUID = -8221241254399617086L;
 
 	/**
 	 * Metodo que permite navegar entre pantalla del aplicativo

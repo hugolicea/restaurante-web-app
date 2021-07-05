@@ -4,6 +4,7 @@
 package com.emula.restauranteweb.session;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -17,7 +18,9 @@ import com.emula.restauranteweb.utils.ControllersUtil;
  */
 @ManagedBean
 @ViewScoped
-public class SessionClosedBean {
+public class SessionClosedBean implements Serializable {
+
+	private static final long serialVersionUID = 4583907436048325677L;
 
 	/**
 	 * Metodo que permite cerrar la sesion del usuario.

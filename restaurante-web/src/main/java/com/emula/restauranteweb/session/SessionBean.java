@@ -3,6 +3,8 @@
  */
 package com.emula.restauranteweb.session;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -14,8 +16,9 @@ import com.emula.restauranteentities.entity.Empleado;
  */
 @ManagedBean
 @SessionScoped
-public class SessionBean {
+public class SessionBean implements Serializable {
 
+	private static final long serialVersionUID = 4871533661531716330L;
 	/**
 	 * Objeto del empleado que inicia la sesion.
 	 */
