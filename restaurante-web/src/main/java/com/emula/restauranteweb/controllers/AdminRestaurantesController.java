@@ -17,6 +17,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.servlet.http.Part;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.emula.restauranteentities.entity.Restaurante;
 import com.emula.restauranteentities.entity.TipoRestaurante;
 import com.emula.restauranteservice.services.AdminGeneralService;
@@ -31,6 +34,10 @@ import com.emula.restauranteweb.utils.ControllersUtil;
 public class AdminRestaurantesController implements Serializable {
 
 	private static final long serialVersionUID = -6159269314118881432L;
+
+	// Define a static logger variable so that it references the
+	// Logger instance named "AdminRestaurantesController".
+	private static final Logger logger = LogManager.getLogger(AdminRestaurantesController.class);
 
 	/**
 	 * Lista de restaurantes para mostrar la informacion en el datatable
@@ -74,11 +81,20 @@ public class AdminRestaurantesController implements Serializable {
 	 * Permite consultar la tabla de tipo restaurantes
 	 */
 	public void consultar() {
+		logger.trace("Cargando lista de restaurantes trace.");
+		logger.debug("This is debug ");
+		logger.info("This is info ");
+		logger.warn("This is warn ");
+		logger.error("This is error ");
+		logger.fatal("This is fatal ");
+
 		try {
 			this.listRestaurantes = adminGeneralService.consultarRestaurantes();
+
 		} catch (SQLException e) {
 			ControllersUtil.mostrarMensaje(FacesMessage.SEVERITY_ERROR, "ERROR: ",
 					"Hubo un problema al cargar la informacion. Consultar al area de soporte");
+			logger.error("Hubo un problema al cargar la informacion. Consultar al area de soporte");
 			e.printStackTrace();
 		}
 	}

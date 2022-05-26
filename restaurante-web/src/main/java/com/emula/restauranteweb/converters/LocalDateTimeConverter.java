@@ -3,6 +3,7 @@
  */
 package com.emula.restauranteweb.converters;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -20,7 +21,9 @@ import javax.faces.convert.Converter;
  */
 @ManagedBean
 @ViewScoped
-public class LocalDateTimeConverter implements Converter {
+public class LocalDateTimeConverter implements Converter, Serializable {
+
+	private static final long serialVersionUID = -4831240425734927416L;
 
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
